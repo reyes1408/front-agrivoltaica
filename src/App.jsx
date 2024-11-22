@@ -2,16 +2,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Graficas from "./pages/Graficas";
 import NotFound from "./pages/NotFound";
-import Navbar from "./components/navbar";
+import Reportes from "./pages/Reportes";
+import LoginView from "./pages/Login";
 
 const App = () => {
   return (
     <div>
-      <Router>
-        <Navbar />
+      <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginView />} />
           <Route path="/graficas" element={<Graficas />} />
+          <Route path="/reportes" element={<Reportes />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -1,27 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import ApexCharts from 'apexcharts';
+import React, { useEffect, useRef } from "react";
+import ApexCharts from "apexcharts";
 
-const Grafica = ({nombreGrafica}) => {
+const Grafica = ({ nombreGrafica }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     const chartConfig = {
       series: [
         {
-          name: 'sección 1',
+          name: "sección 1",
           data: [500, 90, 200, 320, 500, 350, 200, 230, 500, 200, 250],
         },
         {
-          name: 'Seccion 2',
+          name: "Seccion 2",
           data: [30, 20, 320, 330, 200, 430, 100, 130, 300, 400, 270],
         },
         {
-          name: 'Seccion 3',
+          name: "Seccion 3",
           data: [70, 430, 360, 630, 730, 360, 600, 530, 350, 500, 350],
         },
       ],
       chart: {
-        type: 'line',
+        type: "line",
         height: 240,
         toolbar: {
           show: false,
@@ -30,10 +30,10 @@ const Grafica = ({nombreGrafica}) => {
       dataLabels: {
         enabled: false,
       },
-      colors: ['#020617', '#1D4ED8', '#DC2626'],
+      colors: ["#020617", "#1D4ED8", "#DC2626"],
       stroke: {
-        lineCap: 'round',
-        curve: 'smooth',
+        lineCap: "round",
+        curve: "smooth",
       },
       markers: {
         size: 0,
@@ -47,27 +47,39 @@ const Grafica = ({nombreGrafica}) => {
         },
         labels: {
           style: {
-            colors: '#616161',
-            fontSize: '12px',
-            fontFamily: 'inherit',
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
             fontWeight: 400,
           },
         },
-        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        categories: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
       },
       yaxis: {
         labels: {
           style: {
-            colors: '#616161',
-            fontSize: '12px',
-            fontFamily: 'inherit',
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
             fontWeight: 400,
           },
         },
       },
       grid: {
         show: true,
-        borderColor: '#dddddd',
+        borderColor: "#dddddd",
         strokeDashArray: 5,
         xaxis: {
           lines: {
@@ -83,7 +95,26 @@ const Grafica = ({nombreGrafica}) => {
         opacity: 0.8,
       },
       tooltip: {
-        theme: 'dark',
+        theme: "dark",
+      },
+      annotations: {
+        xaxis: [
+          {
+            x: "Mar", // Inicio del rango
+            x2: "Jul", // Fin del rango
+            borderColor: "#FF5733",
+            fillColor: "rgba(255, 87, 51, 0.2)", // Color del relleno
+            opacity: 0.4,
+            label: {
+              borderColor: "#FF5733",
+              style: {
+                color: "#fff",
+                background: "#FF5733",
+              },
+              text: "Rango Destacado",
+            },
+          },
+        ],
       },
     };
 
