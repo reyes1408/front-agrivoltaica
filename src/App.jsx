@@ -4,14 +4,16 @@ import Graficas from "./pages/Graficas";
 import NotFound from "./pages/NotFound";
 import Reportes from "./pages/Reportes";
 import LoginView from "./pages/Login";
+import RegistroView from "./pages/RegistroView";
 
 const App = () => {
   return (
     <div>
       <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginView />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<LoginView />} />
+          <Route path="/register" element={<RegistroView />} />
           <Route path="/graficas" element={<Graficas />} />
           <Route path="/reportes" element={<Reportes />} />
           <Route path="*" element={<NotFound />} />

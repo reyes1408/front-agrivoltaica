@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/Logo_Empresa.png';
 
 const LoginView = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -13,27 +13,33 @@ const LoginView = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/api/users/login', { // Cambia esta URL según tu backend
+      const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          usuario: username,
+          contrasena: password,
+        }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        // Guarda el token o información del usuario si es necesario
+
+        // Guarda el token en localStorage
+        localStorage.setItem('authToken', data.token);
+
         console.log('Login successful:', data);
-        navigate('/Home'); // Redirige a la vista Home
+        navigate('/home'); 
       } else {
         const errorData = await response.json();
         console.error('Login failed:', errorData.message);
-        setError(errorData.message || 'Correo o contraseña inválidos'); // Muestra un mensaje de error al usuario
+        setError(errorData.message || 'Usuario o contraseña inválidos');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setError('Error durante el inicio de sesión'); // Maneja cualquier error de red o inesperado
+      setError('Error durante el inicio de sesión');
     }
   };
 
@@ -52,39 +58,41 @@ const LoginView = () => {
           )}
           <form onSubmit={handleLogin}>
             <div className="mb-6 flex items-center">
-              <input 
-                type="email" 
-                id="email" 
-                placeholder="Email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required 
+              <input
+                type="text"
+                id="username"
+                placeholder="Usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
                 className="border border-gray-300 p-4 w-full text-lg rounded-md"
               />
-              <img src="https://cdn-icons-png.flaticon.com/512/646/646094.png" alt="Email" className="h-8 w-8 ml-2" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/747/747376.png"
+                alt="Usuario"
+                className="h-8 w-8 ml-2"
+              />
             </div>
-            
+
             <div className="mb-6 flex items-center">
-              <input 
-                type="password" 
-                id="password" 
-                placeholder="Contraseña" 
+              <input
+                type="password"
+                id="password"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required 
+                required
                 className="border border-gray-300 p-4 w-full text-lg rounded-md"
               />
-              <img src="https://cdn-icons-png.flaticon.com/512/747/747305.png" alt="Contraseña" className="h-8 w-8 ml-2" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/747/747305.png"
+                alt="Contraseña"
+                className="h-8 w-8 ml-2"
+              />
             </div>
-            
-            {/* Enlace para olvidar la contraseña */}
-            <Link to="/olvidar-contrasena" className="text-blue-500 hover:text-blue-700 block mb-4 text-sm">
-              ¿Contraseña olvidada?
-            </Link>
 
-            {/* Botón de inicio de sesión */}
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full bg-[#415292] hover:bg-[#3a4671] text-white py-3 text-lg rounded-md"
             >
               Iniciar sesión
@@ -92,7 +100,7 @@ const LoginView = () => {
           </form>
           <div className="mt-4 flex items-center">
             <p className="mr-2">¿No tiene una cuenta?</p>
-            <Link to="/registro" className="text-blue-500 hover:text-blue-700 text-sm">
+            <Link to="/register" className="text-blue-500 hover:text-blue-700 text-sm">
               Regístrate
             </Link>
           </div>
