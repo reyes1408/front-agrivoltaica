@@ -8,15 +8,15 @@ const Grafica = ({ nombreGrafica }) => {
     const chartConfig = {
       series: [
         {
-          name: "sección 1",
+          name: "Sección 1",
           data: [500, 90, 200, 320, 500, 350, 200, 230, 500, 200, 250],
         },
         {
-          name: "Seccion 2",
+          name: "Sección 2",
           data: [30, 20, 320, 330, 200, 430, 100, 130, 300, 400, 270],
         },
         {
-          name: "Seccion 3",
+          name: "Sección 3",
           data: [70, 430, 360, 630, 730, 360, 600, 530, 350, 500, 350],
         },
       ],
@@ -100,10 +100,10 @@ const Grafica = ({ nombreGrafica }) => {
       annotations: {
         xaxis: [
           {
-            x: "Mar", // Inicio del rango
-            x2: "Jul", // Fin del rango
+            x: "Mar",
+            x2: "Jul",
             borderColor: "#FF5733",
-            fillColor: "rgba(255, 87, 51, 0.2)", // Color del relleno
+            fillColor: "rgba(255, 87, 51, 0.2)",
             opacity: 0.4,
             label: {
               borderColor: "#FF5733",
@@ -118,21 +118,22 @@ const Grafica = ({ nombreGrafica }) => {
       },
     };
 
-    // Renderizar la gráfica
     const chart = new ApexCharts(chartRef.current, chartConfig);
     chart.render();
 
-    // Limpiar la gráfica cuando el componente se desmonte
     return () => {
       chart.destroy();
     };
   }, []);
 
   return (
-    <div className="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-      <div className="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
+    <div
+      className="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+      style={{ zIndex: 10 }}
+    >
+      <div className="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden bg-transparent md:flex-row md:items-center">
         <div>
-          <h6 className="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased">
+          <h6 className="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900">
             {nombreGrafica}
           </h6>
         </div>

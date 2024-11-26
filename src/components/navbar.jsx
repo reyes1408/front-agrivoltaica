@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div className="w-full h-10">
-      <div className="py-2 px-6 flex justify-between items-center bg-blue-950 shadow-md fixed w-full">
+    <div className="w-full h-14">
+      <div className="py-2 px-6 flex justify-between items-center bg-blue-950 shadow-md fixed w-full z-50">
         <div className="text-lg font-bold text-white">
           Sistema de monitoreo de cultivos
         </div>

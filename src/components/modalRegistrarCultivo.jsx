@@ -5,11 +5,11 @@ const ModalRegistrarCultivo = ({ isOpen, onClose, onAccept, formData, onInputCha
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-5 w-96">
-        <h2 className="text-xl font-semibold mb-4">Registrar Cultivo</h2>
+        <h2 className="text-xl font-semibold mb-4">Registrar Parcela</h2>
         <form>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Nombre del cultivo:
+              Nombre de la parcela:
             </label>
             <input
               type="text"

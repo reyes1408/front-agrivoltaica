@@ -26,13 +26,16 @@ const Home = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:3000/sensores_data/last-data", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`, // Agrega el token Bearer
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "http://localhost:3000/sensores_data/last-data",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`, // Agrega el token Bearer
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -60,10 +63,42 @@ const Home = () => {
     });
   };
 
-  const handleAccept = () => {
-    console.log("Datos del cultivo registrados:", formData);
-    setModalOpen(false);
-    setFormData({ nombre: "", mac: "" });
+  const handleAccept = async () => {
+    const token = localStorage.getItem("authToken"); // Recupera el token desde localStorage
+    if (!token) {
+      alert("No se encontró el token de autenticación.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/parcelas", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // Agregar el token Bearer
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Enviar formData como JSON
+      });
+
+      if (response.ok) {
+        const nuevaParcela = await response.json(); // Obtener la parcela creada desde la respuesta
+        console.log("Parcela creada con éxito:", nuevaParcela);
+        setDatosSensor((prevDatos) => [...prevDatos, nuevaParcela]);
+        alert("Parcela creada exitosamente.");
+        setModalOpen(false);
+        setFormData({ nombre: "", mac: "" });
+      } else {
+        const errorData = await response.json();
+        alert(
+          `Error al crear la parcela: ${
+            errorData.message || "Error desconocido"
+          }`
+        );
+      }
+    } catch (err) {
+      console.error("Error al enviar la solicitud:", err);
+      alert("Error al conectar con el servidor.");
+    }
   };
 
   const handleCancel = () => {
@@ -75,19 +110,22 @@ const Home = () => {
     <>
       <Navbar />
       <div className="py-10 px-20 text-center scroll-auto">
-        <div className="w-full rounded-md bg-slate-100 mb-5 p-5">
-          {loading ? (
-            <p>Cargando datos...</p>
-          ) : error ? (
-            <p className="text-red-600">{error}</p>
-          ) : (
-            datosSensor.map((sensor, i) => (
+        {loading ? (
+          <p>Cargando datos...</p>
+        ) : error ? (
+          <p className="text-red-600">{error}</p>
+        ) : (
+          datosSensor.map((sensor, i) => (
+            <div className="w-full rounded-md bg-slate-100 mb-5 p-5">
               <div key={sensor.id}>
                 <p className="text-xl font-semibold">{`${sensor.parcela_nombre}: {${sensor.parcela_mac}}`}</p>
-                <Link to="/graficas" className="w-full flex grid-cols-4 gap-10 justify-center p-10">
+                <Link
+                  to="/graficas"
+                  className="w-full flex grid-cols-4 gap-10 justify-center p-10"
+                >
                   <Parcela
                     key={`${sensor.id}_1_${i}`}
-                    numeroSeccion={i + 1}
+                    numeroSeccion={"1"}
                     humedadSuelo={`${sensor.humedad_suelo}%`}
                     luminosidad={`${sensor.iluminacion} lx`}
                     temperatura={`N/A °C`} // Actualiza si tienes estos datos
@@ -95,7 +133,7 @@ const Home = () => {
                   />
                   <Parcela
                     key={`${sensor.id}_2_${i}`}
-                    numeroSeccion={i + 1}
+                    numeroSeccion={"2"}
                     humedadSuelo={`${sensor.humedad_suelo_2}%`}
                     luminosidad={`${sensor.iluminacion_2} lx`}
                     temperatura={`N/A °C`} // Actualiza si tienes estos datos
@@ -103,13 +141,11 @@ const Home = () => {
                   />
                 </Link>
               </div>
-            ))
-          )}
-        </div>
+            </div>
+          ))
+        )}
       </div>
       <BotonRegistroParcela setModalOpen={setModalOpen} />
-
-      {/* Modal Registrar Cultivo */}
       <ModalRegistrarCultivo
         isOpen={modalOpen}
         onClose={handleCancel}
