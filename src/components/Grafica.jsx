@@ -98,10 +98,10 @@ const Grafica = ({ nombreGrafica }) => {
         theme: "dark",
       },
       annotations: {
-        xaxis: [
+        yaxis: [
           {
-            x: "Mar",
-            x2: "Jul",
+            y: "200",
+            y2: "600",
             borderColor: "#FF5733",
             fillColor: "rgba(255, 87, 51, 0.2)",
             opacity: 0.4,

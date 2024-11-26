@@ -16,13 +16,13 @@ const Navbar = () => {
               Parcelas
             </p>
           </Link>
-          <Link to="/reportes" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
-            <img src="https://cdn-icons-png.flaticon.com/512/3093/3093748.png" alt="" className='w-4 h-4' />
-            Reporte
+          <Link to="/register" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
+            <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="" className='w-4 h-4' />
+            Registrar usuario
           </Link>
-          <Link to="/graficas" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
-            <img src="https://cdn-icons-png.flaticon.com/512/11128/11128057.png" alt="" className='w-5' />
-            Gráficas
+          <Link to="/registro-cultivo" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
+            <img src="https://cdn-icons-png.flaticon.com/512/8445/8445252.png" alt="" className='w-4 h-4' />
+            Registrar cultivo
           </Link>
         </div>
       </div>

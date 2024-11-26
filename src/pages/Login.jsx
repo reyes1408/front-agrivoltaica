@@ -98,12 +98,12 @@ const LoginView = () => {
               Iniciar sesión
             </button>
           </form>
-          <div className="mt-4 flex items-center">
+          {/* <div className="mt-4 flex items-center">
             <p className="mr-2">¿No tiene una cuenta?</p>
             <Link to="/register" className="text-blue-500 hover:text-blue-700 text-sm">
               Regístrate
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
