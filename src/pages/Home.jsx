@@ -27,7 +27,7 @@ const Home = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:3000/sensores_data/last-data",
+          "https://agrivoltaica.onrender.com/sensores_data/last-data",
           {
             method: "GET",
             headers: {
@@ -40,7 +40,7 @@ const Home = () => {
         if (response.ok) {
           const data = await response.json();
           setDatosSensor(data); // Actualiza los datos del sensor
-          setError(null); // Resetea cualquier error previo
+          setError(null);
         } else {
           const errorData = await response.json();
           setError(errorData.message || "Error al obtener los datos.");
@@ -54,7 +54,7 @@ const Home = () => {
     };
 
     fetchDatos();
-  }, []); // Ejecuta solo al montar el componente
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -71,14 +71,17 @@ const Home = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/parcelas", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Agregar el token Bearer
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // Enviar formData como JSON
-      });
+      const response = await fetch(
+        "https://agrivoltaica.onrender.com/parcelas",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`, // Agregar el token Bearer
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData), // Enviar formData como JSON
+        }
+      );
 
       if (response.ok) {
         const nuevaParcela = await response.json(); // Obtener la parcela creada desde la respuesta
@@ -116,31 +119,32 @@ const Home = () => {
           <p className="text-red-600">{error}</p>
         ) : (
           datosSensor.map((sensor, i) => (
-            <div className="w-full rounded-md bg-slate-100 mb-5 p-5">
-              <div key={sensor.id}>
-                <p className="text-xl font-semibold">{`${sensor.parcela_nombre}: {${sensor.parcela_mac}}`}</p>
-                <Link
-                  to="/graficas"
-                  className="w-full flex grid-cols-4 gap-10 justify-center p-10"
-                >
-                  <Parcela
-                    key={`${sensor.id}_1_${i}`}
-                    numeroSeccion={"1"}
-                    humedadSuelo={`${sensor.humedad_suelo}%`}
-                    luminosidad={`${sensor.iluminacion} lx`}
-                    temperatura={`N/A °C`} // Actualiza si tienes estos datos
-                    humedadAire={`N/A%`} // Actualiza si tienes estos datos
-                  />
-                  <Parcela
-                    key={`${sensor.id}_2_${i}`}
-                    numeroSeccion={"2"}
-                    humedadSuelo={`${sensor.humedad_suelo_2}%`}
-                    luminosidad={`${sensor.iluminacion_2} lx`}
-                    temperatura={`N/A °C`} // Actualiza si tienes estos datos
-                    humedadAire={`N/A%`} // Actualiza si tienes estos datos
-                  />
-                </Link>
-              </div>
+            <div
+              key={sensor.id}
+              className="w-full rounded-md bg-slate-100 mb-5 p-5"
+            >
+              <p className="text-xl font-semibold">{`${sensor.parcela_nombre}: {${sensor.parcela_mac}}`}</p>
+              <Link
+                to="/graficas"
+                className="w-full flex grid-cols-4 gap-10 justify-center p-10"
+              >
+                <Parcela
+                  key={`${sensor.id}_1_${i}`}
+                  numeroSeccion={"1"}
+                  humedadSuelo={`${sensor.humedad_suelo}%`}
+                  luminosidad={`${sensor.iluminacion} lx`}
+                  temperatura={`${sensor.temp}`} // Actualiza si tienes estos datos
+                  humedadAire={`${sensor.humedad_aire}`} // Actualiza si tienes estos datos
+                />
+                <Parcela
+                  key={`${sensor.id}_2_${i}`}
+                  numeroSeccion={"2"}
+                  humedadSuelo={`${sensor.humedad_suelo_2}%`}
+                  luminosidad={`${sensor.iluminacion_2} lx`}
+                  temperatura={`${sensor.temp}`} // Actualiza si tienes estos datos
+                  humedadAire={`${sensor.humedad_aire}`} // Actualiza si tienes estos datos
+                />
+              </Link>
             </div>
           ))
         )}
