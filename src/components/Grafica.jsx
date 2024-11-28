@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import ApexCharts from "apexcharts";
 
-const Grafica = ({ nombreGrafica, valores, categorias, rango }) => {
+const Grafica = ({ nombreGrafica, valores, categorias, diaInicio, diaFinal }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -9,7 +9,7 @@ const Grafica = ({ nombreGrafica, valores, categorias, rango }) => {
       series: [
         {
           name: nombreGrafica,
-          data: valores, // Valores dinámicos de la gráfica
+          data: valores,
         },
       ],
       chart: {
@@ -53,11 +53,11 @@ const Grafica = ({ nombreGrafica, valores, categorias, rango }) => {
         strokeDashArray: 5,
       },
       annotations: {
-        xaxis: rango
+        xaxis: "Hola"
           ? [
               {
-                x: rango.inicio,
-                x2: rango.fin,
+                x: diaInicio,
+                x2: diaFinal,
                 fillColor: "#007863", // Color del área resaltada
                 opacity: 0.4,
                 label: {
@@ -79,7 +79,7 @@ const Grafica = ({ nombreGrafica, valores, categorias, rango }) => {
     return () => {
       chart.destroy();
     };
-  }, [valores, categorias]); // Volver a renderizar si cambian los datos
+  }, [valores, categorias]);
 
   return (
     <div className="relative flex flex-col rounded-xl bg-white text-gray-700 shadow-md">

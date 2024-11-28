@@ -3,7 +3,7 @@ import React from "react";
 const Parcela = ({ numeroSeccion, humedadSuelo, luminosidad, temperatura, humedadAire,}) => {
 
   return (
-    <div className="w-1/4 h-80 bg-slate-200 rounded-lg p-10 shadow-md">
+    <div className="w-1/3 h-80 bg-slate-200 rounded-lg p-10 shadow-md">
       <p className="text-2xl font-semibold text-center mb-5">{`Sección ${numeroSeccion}`}</p>
 
       <div className="flex items-center">
