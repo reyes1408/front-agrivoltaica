@@ -1,65 +1,14 @@
 
 import { Card, Typography } from "@material-tailwind/react";
 
-const Tabla = () => {
+const Tabla = ({ mejorRango }) => {
 
-    const TABLE_HEAD = ["Parcela", "Humedad de suelo", "Luminosidad", "Temperatura", "Humedad del aire", "Fecha"];
-
-    const TABLE_ROWS = [
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-        {
-            parcela: "Parcela 1", 
-            humedad_Suelo: "32%",
-            luminosidad: "45000 lx",
-            temperatura: "30° C",
-            humedad_Aire: "40%",
-            fecha: "23/04/18",
-        },
-    ];
+    const TABLE_HEAD = ["Dia", "Iluminacion", "Humedad del suelo", "Humedad del aire", "Temperatura"];
 
     return (
 
-        <Card className="h-full w-full overflow-scroll">
-            <table className="w-full min-w-max table-auto text-left">
+        <Card className="h-full w-full">
+            <table className="w-full min-w-max table-auto text-left mt-8">
                 <thead>
                     <tr>
                         {TABLE_HEAD.map((head) => (
@@ -79,28 +28,19 @@ const Tabla = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {TABLE_ROWS.map(({ parcela, humedad_Suelo, luminosidad, temperatura, humedad_Aire, fecha }, index) => {
-                        const isLast = index === TABLE_ROWS.length - 1;
+                    {mejorRango.map(({ day, avg_iluminacion, avg_humedad_suelo, avg_humedad_aire, avg_temp }, index) => {
+                        const isLast = index === mejorRango.length - 1;
                         const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
                         return (
-                            <tr key={parcela + index}>
+                            <tr key={"key:" + index}>
                                 <td className={classes}>
                                     <Typography
                                         variant="small"
                                         color="blue-gray"
                                         className="font-normal"
                                     >
-                                        {parcela}
-                                    </Typography>
-                                </td>
-                                <td className={classes}>
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                    >
-                                        {humedad_Suelo}
+                                        {day}
                                     </Typography>
                                 </td>
                                 <td className={classes}>
@@ -109,7 +49,16 @@ const Tabla = () => {
                                         color="blue-gray"
                                         className="font-normal"
                                     >
-                                        {luminosidad}
+                                        {`${avg_iluminacion} %`}
+                                    </Typography>
+                                </td>
+                                <td className={classes}>
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal"
+                                    >
+                                        {`${avg_humedad_suelo} %`}
                                     </Typography>
                                 </td>
                                 <td className={classes}>
@@ -118,9 +67,9 @@ const Tabla = () => {
                                         href="#"
                                         variant="small"
                                         color="blue-gray"
-                                        className="font-medium"
+                                        className="font-normal"
                                     >
-                                        {temperatura}
+                                        {`${avg_humedad_aire} %`}
                                     </Typography>
                                 </td>
                                 <td className={classes}>
@@ -129,20 +78,9 @@ const Tabla = () => {
                                         href="#"
                                         variant="small"
                                         color="blue-gray"
-                                        className="font-medium"
+                                        className="font-normal"
                                     >
-                                        {humedad_Aire}
-                                    </Typography>
-                                </td>
-                                <td className={classes}>
-                                    <Typography
-                                        as="a"
-                                        href="#"
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-medium"
-                                    >
-                                        {fecha}
+                                        {`${avg_temp} °C`}
                                     </Typography>
                                 </td>
                             </tr>

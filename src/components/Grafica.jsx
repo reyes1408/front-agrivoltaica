@@ -53,23 +53,21 @@ const Grafica = ({ nombreGrafica, valores, categorias, diaInicio, diaFinal }) =>
         strokeDashArray: 5,
       },
       annotations: {
-        xaxis: "Hola"
-          ? [
-              {
-                x: diaInicio,
-                x2: diaFinal,
-                fillColor: "#007863", // Color del área resaltada
-                opacity: 0.4,
-                label: {
-                  text: "Rango Óptimo",
-                  style: {
-                    color: "#000",
-                    fontSize: "10px",
-                  },
-                },
+        xaxis: diaInicio !== null && diaFinal !== null ? [
+          {
+            x: diaInicio,
+            x2: diaFinal,
+            fillColor: "#007863",
+            opacity: 0.4,
+            label: {
+              text: "Rango Óptimo",
+              style: {
+                color: "#000",
+                fontSize: "10px",
               },
-            ]
-          : [],
+            },
+          },
+        ] : [],
       },
     };
 
@@ -79,16 +77,14 @@ const Grafica = ({ nombreGrafica, valores, categorias, diaInicio, diaFinal }) =>
     return () => {
       chart.destroy();
     };
-  }, [valores, categorias]);
+  }, [valores, categorias, diaInicio, diaFinal]);
 
   return (
     <div className="relative flex flex-col rounded-xl bg-white text-gray-700 shadow-md">
       <div className="relative mx-4 mt-4">
         <h6 className="font-semibold text-blue-gray-900">{nombreGrafica}</h6>
       </div>
-      <div className="pt-6 px-2">
-        <div id="line-chart" ref={chartRef}></div>
-      </div>
+      <div ref={chartRef} className="h-[240px]"></div>
     </div>
   );
 };

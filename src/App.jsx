@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home"
-import Graficas from "./pages/Graficas";
+import GraficasView from "./pages/GraficasView";
 import NotFound from "./pages/NotFound";
 import Reportes from "./pages/Reportes";
 import LoginView from "./pages/Login";
@@ -15,7 +15,7 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<LoginView />} />
           <Route path="/register" element={<RegistroView />} />
-          <Route path="/graficas" element={<Graficas />} />
+          <Route path="/graficas" element={<GraficasView />} />
           <Route path="/reportes" element={<Reportes />} />
           <Route path="/registro-cultivo" element={<RegistroCultivo />} />
           <Route path="*" element={<NotFound />} />

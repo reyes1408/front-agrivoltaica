@@ -1,20 +1,49 @@
 import React, { useEffect, useState } from "react";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import Grafica from "../components/Grafica";
 import Navbar from "../components/navbar";
 import { useLocation } from "react-router-dom";
+import Tabla from "../components/tabla";
 
-const Graficas = () => {
+const GraficasView = () => {
   const [data, setData] = useState(null);
   const [diaInicio, setDiaInicio] = useState(null);
   const [diaFinal, setDiaFinal] = useState(null);
+  const [mejorRango, setMejorRango] = useState([]);
   const [dayTemp, setDayTemp] = useState(null);
   const [cultivos, setCultivos] = useState([]);
   const [selectedCultivo, setSelectedCultivo] = useState(null);
-  const [loading, setLoading] = useState(false); // Estado de carga
-  const [error, setError] = useState(null); // Estado de error
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const location = useLocation();
   const mac = location.state;
+
+  const handleImprimirReporte = async () => {
+    const pdf = new jsPDF("landscape", "pt", "a4");
+    const content = document.getElementById("reporte");
+  
+    if (!content) return;
+  
+    try {
+      const canvas = await html2canvas(content, {
+        scale: 2,
+        useCORS: true,
+      });
+  
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = 800;
+      const imgHeight = 550;
+  
+      pdf.addImage(imgData, "PNG", 30, 0, imgWidth, imgHeight);
+      pdf.save(`Reporte_${selectedCultivo || "cultivo"}.pdf`);
+    } catch (error) {
+      console.error("Error al generar el PDF:", error);
+    }
+  };
+  
+  
 
   // Fetch para los cultivos
   useEffect(() => {
@@ -44,7 +73,6 @@ const Graficas = () => {
 
   // Fetch de los datos de sensores
   const fetchSensoresData = async () => {
-    setLoading(true); // Inicia carga
     setError(null); // Resetea el error
     try {
       const response = await fetch("https://agrivoltaica.onrender.com/sensores_data/", {
@@ -78,8 +106,6 @@ const Graficas = () => {
       });
     } catch (error) {
       setError("Error al cargar los datos: " + error.message);
-    } finally {
-      setLoading(false); // Finaliza carga
     }
   };
 
@@ -122,6 +148,7 @@ const Graficas = () => {
       const result = await response.json();
       setDiaInicio(result.diaInicio);
       setDiaFinal(result.diaFinal);
+      setMejorRango(result.mejorRango);
     } catch (error) {
       setError("Error al cargar el rango óptimo: " + error.message);
     }
@@ -131,8 +158,15 @@ const Graficas = () => {
     if (!selectedCultivo) return;
 
     const fetchAllData = async () => {
-      await fetchSensoresData();
-      await fetchRangoOptimo();
+      setLoading(true);
+      try {
+        await fetchSensoresData();
+        await fetchRangoOptimo();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchAllData();
@@ -141,67 +175,82 @@ const Graficas = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-2">
+      <div className="p-10">
         <label htmlFor="cultivo" className="block mb-2 text-sm font-medium text-gray-900">
           Selecciona un cultivo:
         </label>
-        <select
-          id="cultivo"
-          className="block w-full p-2 border border-gray-300 rounded-lg"
-          value={selectedCultivo || ""}
-          onChange={(e) => setSelectedCultivo(e.target.value)}
-        >
-          <option value="" disabled>
-            Selecciona un cultivo
-          </option>
-          {cultivos.map((cultivo) => (
-            <option key={cultivo.id} value={cultivo.id}>
-              {cultivo.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
 
-      {loading && <div className="text-center mt-5">Cargando...</div>} {/* Indicador de carga */}
-      
-      {error && <div className="text-center mt-5 text-red-500">{error}</div>} {/* Mensaje de error */}
-      
-      {data ? (
-        <div className="grid grid-cols-2 gap-5 p-5">
-          <Grafica
-            nombreGrafica="Iluminación"
-            valores={data.iluminacion}
-            categorias={data.days}
-            diaInicio={diaInicio}
-            diaFinal={diaFinal}
-          />
-          <Grafica
-            nombreGrafica="Humedad del suelo"
-            valores={data.humedadSuelo}
-            categorias={data.days}
-            diaInicio={diaInicio}
-            diaFinal={diaFinal}
-          />
-          <Grafica
-            nombreGrafica="Humedad del aire"
-            valores={data.humedadAire}
-            categorias={data.days}
-            diaInicio={diaInicio}
-            diaFinal={diaFinal}
-          />
-          <Grafica
-            nombreGrafica="Temperatura"
-            valores={data.temperatura}
-            categorias={dayTemp}
-            diaInicio={diaInicio}
-            diaFinal={diaFinal}
-          />
+        <div className="flex gap-3">
+          <select
+            id="cultivo"
+            className="block w-full p-2 border border-gray-300 rounded-lg"
+            value={selectedCultivo || ""}
+            onChange={(e) => setSelectedCultivo(e.target.value)}
+          >
+            <option value="" disabled>
+              Selecciona un cultivo
+            </option>
+            {cultivos.map((cultivo) => (
+              <option key={cultivo.id} value={cultivo.id}>
+                {cultivo.nombre}
+              </option>
+            ))}
+          </select>
+          {data && (
+            <button
+              className="w-40 border border-gray-300 rounded-lg hover:bg-gray-300"
+              onClick={handleImprimirReporte}
+            >
+              Imprimir reporte
+            </button>
+          )}
         </div>
-      ) : (
-        <div className="text-center mt-10">Selecciona un cultivo para ver los datos.</div>
-      )}
+
+        {loading && <div className="text-center mt-5">Cargando...</div>} {/* Indicador de carga */}
+        {error && <div className="text-center mt-5 text-red-500">{error}</div>} {/* Mensaje de error */}
+
+        {data && diaInicio !== null && diaFinal !== null ? (
+          <div id="reporte">
+            <p className="text-2xl font-semibold text-center pt-5">Grafica de días optimos</p>
+            <div className="grid grid-cols-2 gap-5 py-3">
+              <Grafica
+                nombreGrafica="Iluminación"
+                valores={data.iluminacion}
+                categorias={data.days}
+                diaInicio={diaInicio}
+                diaFinal={diaFinal}
+              />
+              <Grafica
+                nombreGrafica="Humedad del suelo"
+                valores={data.humedadSuelo}
+                categorias={data.days}
+                diaInicio={diaInicio}
+                diaFinal={diaFinal}
+              />
+              <Grafica
+                nombreGrafica="Humedad del aire"
+                valores={data.humedadAire}
+                categorias={data.days}
+                diaInicio={diaInicio}
+                diaFinal={diaFinal}
+              />
+              <Grafica
+                nombreGrafica="Temperatura"
+                valores={data.temperatura}
+                categorias={dayTemp}
+                diaInicio={diaInicio}
+                diaFinal={diaFinal}
+              />
+            </div>
+            <p className="text-2xl font-semibold text-center py-5">Tabla de días destacados</p>
+            <Tabla mejorRango={mejorRango} />
+          </div>
+        ) : (
+          <div className="text-center mt-10">Selecciona un cultivo para ver los datos.</div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Graficas;
+export default GraficasView;
