@@ -29,8 +29,8 @@ const LoginView = () => {
 
         // Token en localStorage
         localStorage.setItem('authToken', data.token);
-
-        console.log('Login successful:', data);
+        localStorage.setItem('typeUser', data.categoria);
+        
         navigate('/home'); 
       } else {
         const errorData = await response.json();

@@ -10,6 +10,7 @@ const Home = () => {
   const [datosSensor, setDatosSensor] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoria, setCategoria] = useState(localStorage.getItem("typeUser"));
 
   const fetchDatos = async () => {
     try {
@@ -60,6 +61,7 @@ const Home = () => {
   const handleAccept = async () => {
     try {
       const token = localStorage.getItem("authToken");
+
       if (!token) throw new Error("No se encontró el token de autenticación.");
 
       const response = await fetch(
@@ -95,7 +97,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar categoria={categoria} />
       <div className="py-10 px-20 text-center scroll-auto">
         <ParcelaList
           loading={loading}
@@ -103,14 +105,18 @@ const Home = () => {
           datosSensor={datosSensor}
         />
       </div>
-      <BotonRegistroParcela setModalOpen={setModalOpen} />
-      <ModalRegistrarCultivo
-        isOpen={modalOpen}
-        onClose={handleCancel}
-        onAccept={handleAccept}
-        formData={formData}
-        onInputChange={handleInputChange}
-      />
+      {categoria === "administrador" && (
+        <>
+          <BotonRegistroParcela setModalOpen={setModalOpen} />
+          <ModalRegistrarCultivo
+            isOpen={modalOpen}
+            onClose={handleCancel}
+            onAccept={handleAccept}
+            formData={formData}
+            onInputChange={handleInputChange}
+          />
+        </>
+      )}
     </>
   );
 };
