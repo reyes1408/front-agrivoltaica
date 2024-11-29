@@ -22,7 +22,7 @@ const Navbar = ({ categoria }) => {
 
         <div className="flex gap-4 text-sm">
           {
-            categoria === "administrador" ? (
+            categoria === "admin" ? (
               <>
                 <Link to="/home" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
                   <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="" className="w-4 h-4" />

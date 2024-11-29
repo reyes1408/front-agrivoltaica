@@ -105,7 +105,7 @@ const Home = () => {
           datosSensor={datosSensor}
         />
       </div>
-      {categoria === "administrador" && (
+      {categoria === "admin" && (
         <>
           <BotonRegistroParcela setModalOpen={setModalOpen} />
           <ModalRegistrarCultivo
