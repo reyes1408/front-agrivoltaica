@@ -6,6 +6,7 @@ import Reportes from "./pages/Reportes";
 import LoginView from "./pages/Login";
 import RegistroView from "./pages/RegistroView";
 import RegistroCultivo from "./pages/RegistroCultivo";
+import CRUDParcelas from "./pages/CRUDParcelas";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/graficas" element={<GraficasView />} />
           <Route path="/reportes" element={<Reportes />} />
           <Route path="/registro-cultivo" element={<RegistroCultivo />} />
+          <Route path="/registro-parcelas" element={<CRUDParcelas />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
