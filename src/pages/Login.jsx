@@ -13,7 +13,7 @@ const LoginView = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('https://agrivoltaica.onrender.com/auth/login', {
+      const response = await fetch('https://back-agrivoltaica.onrender.com/auth/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,8 +30,8 @@ const LoginView = () => {
         // Token en localStorage
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('typeUser', data.categoria);
-        
-        navigate('/home'); 
+
+        navigate('/home');
       } else {
         const errorData = await response.json();
         console.error('Login failed:', errorData.message);

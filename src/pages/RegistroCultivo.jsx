@@ -23,7 +23,7 @@ const RegistroCultivo = () => {
     const token = localStorage.getItem("authToken"); // Obtener token de autenticación
 
     try {
-      const response = await fetch("https://agrivoltaica.onrender.com/cultivos", {
+      const response = await fetch("https://back-agrivoltaica.onrender.com/cultivos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

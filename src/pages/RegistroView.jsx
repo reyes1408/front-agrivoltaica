@@ -17,15 +17,15 @@ const RegistroView = () => {
       return;
     }
 
-    const response = await fetch('https://agrivoltaica.onrender.com/auth/register', {
+    const response = await fetch('https://back-agrivoltaica.onrender.com/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         'usuario': username,
-        'contrasena':password,
-        'categoria':userType
+        'contrasena': password,
+        'categoria': userType
       }),
     });
 
