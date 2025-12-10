@@ -18,7 +18,7 @@ const Home = () => {
       if (!token) throw new Error("No se encontró el token de autenticación.");
 
       const response = await fetch(
-        "https://back-agrivoltaica.onrender.com/sensores_data/last-data",
+        "https://back-agrivoltaica.onrender.com/sensores/last-data",
         {
           method: "GET",
           headers: {

@@ -23,33 +23,33 @@ const GraficasView = () => {
   const handleImprimirReporte = async () => {
     const pdf = new jsPDF("landscape", "pt", "a4");
     const content = document.getElementById("reporte");
-  
+
     if (!content) return;
-  
+
     try {
       const canvas = await html2canvas(content, {
         scale: 2,
         useCORS: true,
       });
-  
+
       const imgData = canvas.toDataURL("image/png");
       const imgWidth = 800;
       const imgHeight = 550;
-  
+
       pdf.addImage(imgData, "PNG", 30, 0, imgWidth, imgHeight);
       pdf.save(`Reporte_${selectedCultivo || "cultivo"}.pdf`);
     } catch (error) {
       console.error("Error al generar el PDF:", error);
     }
   };
-  
-  
+
+
 
   // Fetch para los cultivos
   useEffect(() => {
     const fetchCultivos = async () => {
       try {
-        const response = await fetch("https://agrivoltaica.onrender.com/cultivos/", {
+        const response = await fetch("https://back-agrivoltaica.onrender.com/cultivos/", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const GraficasView = () => {
   const fetchSensoresData = async () => {
     setError(null); // Resetea el error
     try {
-      const response = await fetch("https://agrivoltaica.onrender.com/sensores_data/", {
+      const response = await fetch("https://back-agrivoltaica.onrender.com/sensores/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const GraficasView = () => {
       };
 
       const response = await fetch(
-        "https://agrivoltaica.onrender.com/sensores_data/rango-optimo",
+        "https://back-agrivoltaica.onrender.com/sensores/rango-optimo",
         {
           method: "POST",
           headers: {

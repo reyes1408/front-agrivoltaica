@@ -8,7 +8,7 @@ const CRUDParcelas = () => {
   const [mensaje, setMensaje] = useState(null);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "https://agrivoltaica.onrender.com";
+  const API_BASE_URL = "https://back-agrivoltaica.onrender.com";
 
   const fetchParcelas = async () => {
     const token = localStorage.getItem("authToken");
@@ -85,7 +85,7 @@ const CRUDParcelas = () => {
     if (!window.confirm(`¿Estás seguro de que quieres eliminar la parcela "${nombre}"?`)) {
       return;
     }
-    
+
     const token = localStorage.getItem("authToken");
 
     try {
@@ -142,7 +142,7 @@ const CRUDParcelas = () => {
             required
             className="p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
           />
-          
+
           <button
             type="submit"
             className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 font-medium"
@@ -151,7 +151,7 @@ const CRUDParcelas = () => {
           </button>
         </form>
       </div>
-      
+
       <div>
         <h3 className="text-xl font-semibold mb-3">Listado de Parcelas</h3>
         {parcelas.length === 0 ? (
@@ -163,13 +163,13 @@ const CRUDParcelas = () => {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MAC ESP32</th>
-                  
+
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {parcelas.map((parcela) => (
-                  <tr key={parcela._id}> 
+                  <tr key={parcela._id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{parcela.nombre}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{parcela.mac_esp32}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
