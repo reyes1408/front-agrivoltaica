@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const Navbar = ({ categoria }) => {
-  console.log("Categoria en Navbar:", categoria);
 
   const navigate = useNavigate();
 

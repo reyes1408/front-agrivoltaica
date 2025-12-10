@@ -28,7 +28,7 @@ const LoginView = () => {
       if (response.ok) {
         const data = await response.json();
         const decoded = jwtDecode(data.token);
-        console.log("Token decodificado:", decoded);
+        //console.log("Token decodificado:", decoded);
 
         // Token en localStorage
         localStorage.setItem('authToken', data.token);

@@ -19,7 +19,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) throw new Error("No se encontró el token de autenticación.");
-
+      //Obtiene las parcelas con la ultima informacion enviada
       const response = await fetch(
         "https://back-agrivoltaica.onrender.com/sensores/last-data",
         {
@@ -51,7 +51,7 @@ const Home = () => {
 
     const intervalId = setInterval(() => {
       fetchDatos();
-    }, 5000);
+    }, 6000);
 
     // Limpieza del intervalo cuando se desmonta el componente
     return () => clearInterval(intervalId);
