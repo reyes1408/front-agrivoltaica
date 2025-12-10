@@ -12,6 +12,9 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [categoria, setCategoria] = useState(localStorage.getItem("typeUser"));
 
+  console.log("Categoria en Home:", categoria);
+
+
   const fetchDatos = async () => {
     try {
       const token = localStorage.getItem("authToken");

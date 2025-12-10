@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from 'react-router-dom';
 
 import logo from '../assets/Logo_Empresa.png';
@@ -26,10 +27,12 @@ const LoginView = () => {
 
       if (response.ok) {
         const data = await response.json();
+        const decoded = jwtDecode(data.token);
+        console.log("Token decodificado:", decoded);
 
         // Token en localStorage
         localStorage.setItem('authToken', data.token);
-        localStorage.setItem('typeUser', data.categoria);
+        localStorage.setItem('typeUser', decoded.categoria);
 
         navigate('/home');
       } else {

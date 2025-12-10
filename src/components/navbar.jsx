@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const Navbar = ({ categoria }) => {
+  console.log("Categoria en Navbar:", categoria);
 
   const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ const Navbar = ({ categoria }) => {
                 </Link>
                 <Link to="/register" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
                   <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="" className="w-4 h-4" />
-                  
+
                   <p>Registrar usuario</p>
                 </Link>
                 <Link to="/registro-cultivo" className="px-2 py-1 bg-white rounded hover:bg-gray-200 flex gap-1">
